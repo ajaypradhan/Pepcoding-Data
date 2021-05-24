@@ -3,10 +3,6 @@ const id = "gecapay358@rphinfo.com";
 const pw = "789456123";
 let tab;
 
-// puppeteer has promisfied functions
-
-// by default headless = true
-
 let browserOpenPromise = puppeteer.launch({
   headless: false,
   defaultViewport: null,
@@ -34,10 +30,38 @@ browserOpenPromise
     ); // login hojata hai click se
   })
   .then(function () {
-    return waitAndClick("#base-card-1-link"); // make this function a promisified function !!
+    return waitAndClick("#base-card-1-link");
   })
   .then(function () {
     return waitAndClick('a[data-attr1="warmup"]');
+  })
+  .then(function () {
+    return tab.waitForSelector(".js-track-click.challenge-list-item", {
+      visible: true,
+    });
+  })
+  .then(function () {
+    return tab.$$(".js-track-click.challenge-list-item"); // it will run document.querySelectorAll in the browser and gives you array of all the elements
+  })
+  .then(function (allQuesArray) {
+    // [<a /> , <a /> , <a /> , <a />];
+    let allPendingPromises = [];
+    for (let i = 0; i < allQuesArray.length; i++) {
+      let oneATag = allQuesArray[i];
+      let pendingPromise = oneATag.evaluate(function (element) {
+        return element.getAttribute("href");
+      }, oneATag);
+      allPendingPromises.push(pendingPromise);
+    }
+    // [ Promise<Pending> , Promise<Pending> , Promise<Pending> , Promise<Pending> ];
+    console.log(allPendingPromises);
+
+    let allPromisesCombined = Promise.all(allPendingPromises);
+    // Promise<Pending>
+    return allPromisesCombined;
+  })
+  .then(function (allQuesLinks) {
+    console.log(allQuesLinks);
   })
   .catch(function (err) {
     console.log(err);
