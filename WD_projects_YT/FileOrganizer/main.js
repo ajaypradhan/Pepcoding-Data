@@ -9,6 +9,7 @@ let inputArr = process.argv.slice(2);  //take input from command line
 //node main.js help
 
 let command = inputArr[0];
+
 switch (command) { 
     case "tree":
         treeFn(inputArr[1])
@@ -32,7 +33,7 @@ function treeFn(dirPath) {
 //organize function
 function organizeFn(dirPath) {
     // console.log("Organize command implemented for ", dirPath);
-    
+    let destPath;
     // 1. input -> directory path
     if(dirPath == undefined){
         console.log("Kindly enter the path");
@@ -49,11 +50,24 @@ function organizeFn(dirPath) {
             return;
         }
     }
+    organizeHelperFn(dirPath,destPath);
     // 3. identify category of all the files present in that input directory
-    // 4/ copy/ cut files to that organized directory inside of any category folder
     
 }
 
+//organizeHelperFn
+function organizeHelperFn(src, dest) {
+    let childNames =fs.readdirSync(src); //get all the files
+    // console.log(childNames);
+    for (let i = 0; i < childNames.length; i++) {
+        let childAddress = path.join(src,childNames[i]);
+        let isFile = fs.lstatSync(childAddress).isFile(); //check wether it is a file or not
+        if(isFile){
+            console.log(childNames[i]);
+            // 4/ copy/ cut files to that organized directory inside of any category folder
+        }
+    }
+}
 
 
 //help function
