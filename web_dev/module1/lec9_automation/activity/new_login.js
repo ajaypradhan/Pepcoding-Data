@@ -65,38 +65,37 @@ browserOpenPromise
   })
   .then(function(allQuesLinks){
     let oneQuesSolvePromise = solveQuestion(allQuesLinks[0]);
-    return oneQuesSolvePromise;   
-    return oneQuesSolvePromise;   
+    return oneQuesSolvePromise;
   })
   .then(function(){
-      console.log("First Ques SOlves Successfully !!!");
+    console.log("First Ques Solved Succesfully !!!!");
   })
   .catch(function(err){
     console.log(err);
   });
 
-  function getCode() {
-    return new Promise(function(scb, fcb){
-      let waitPromise = tab.waitForSelector(".hackdown-content h3" , {visible : true});
-      waitPromise.then(function () {
+  function getCode(){
+    return new Promise(function(scb , fcb){
+      let waitPromise = tab.waitForSelector(".hackdown-content h3" , {visible:true});
+      waitPromise.then(function(){
         return tab.$$(".hackdown-content h3");
       })
-      .then(function (allCodeNamesElement) {
+      .then(function(allCodeNamesElement){
         // [<h3>C++</h3> , <h3>Python</h3> , <h3>Java</h3> ]
         let allCodeNamesPromise = [];
 
-        for (let i = 0; i < allCodeNamesElement; i++) {
+        for(let i=0 ; i<allCodeNamesElement.length ; i++){
           let codeNamePromise = tab.evaluate( function(elem){  return elem.textContent;   }  , allCodeNamesElement[i]  );
           allCodeNamesPromise.push(codeNamePromise);
         }
-         // allCodeNamesPromise = [Promise<data> , Promise<data> , Promise<data> ];
-         let combinedPromise = Promise.all( allCodeNamesPromise );
+        // allCodeNamesPromise = [Promise<data> , Promise<data> , Promise<data> ];
+        let combinedPromise = Promise.all( allCodeNamesPromise );
         // Promise<Pending> => Promise< [data,data,data] >
         return combinedPromise;
       })
-      .then(function (allCodeNames) {
+      .then(function(allCodeNames){
         // [C++ , Python , Java];
-        for (let i = 0; i < allCodeNames.length; i++) {
+        for(let i= 0 ;i<allCodeNames.length ; i++){
           if(allCodeNames[i] == "C++"){
             idx = i;
             break;
@@ -107,7 +106,7 @@ browserOpenPromise
       .then(function(allCodeDiv){
         // [<div></div> , <div></div> , <div></div>];
         let codeDiv = allCodeDiv[idx];
-        return tab.evaluate(function(elem){ return elem.textContent;} ,  codeDiv);
+        return tab.evaluate(function(elem){ return elem.textContent;   }  , codeDiv);
       })
       .then(function(code){
         gCode = code;
@@ -118,8 +117,43 @@ browserOpenPromise
       })
     })
   }
-
   
+  function pasteCode(){
+    return new Promise(function(scb , fcb){
+      let waitAndClickPromise = waitAndClick('.checkbox-input');
+      waitAndClickPromise.then(function(){
+        return tab.waitForTimeout(2000);
+      })
+      .then(function(){
+        return tab.type('.custominput' , gCode);
+      })
+      .then(function(){
+        return tab.keyboard.down("Control");
+      })
+      .then(function(){
+        return tab.keyboard.press("A");
+      })
+      .then(function(){
+        return tab.keyboard.press("X");
+      })
+      .then(function(){
+        return tab.click('.monaco-scrollable-element.editor-scrollable.vs');
+      })
+      .then(function(){
+        return tab.keyboard.press("A");
+      })
+      .then(function(){
+        return tab.keyboard.press("V");
+      })
+      .then(function(){
+        return tab.keyboard.up("Control");
+      })
+      .then(function(){
+        scb();
+      })
+    })
+  }
+
   function solveQuestion(quesLink){
     return new Promise( function(scb , fcb){
       let gotoPromise = tab.goto("https://www.hackerrank.com"+quesLink);
@@ -130,7 +164,16 @@ browserOpenPromise
         return getCode();
       })
       .then(function(){
-        console.log("got c++ code succesfully !!");
+        return tab.click('div[data-attr2="Problem"]');
+      })
+      .then(function(){
+        return pasteCode();
+      })
+      .then(function(){
+        return tab.click('.ui-btn.ui-btn-normal.ui-btn-primary');
+      })
+      .then(function(){
+        scb();
       })
       .catch(function(error){
         fcb(error);
