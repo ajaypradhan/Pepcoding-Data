@@ -10,6 +10,14 @@ let inputArr = process.argv.slice(2);  //take input from command line
 
 let command = inputArr[0];
 
+let types = {
+    media : ["mp4","mkv"],
+    archives : ["zip","7z","rar","tar","gz","ar","iso","xz"],
+    documents : ["docx","doc","pptx","pdf","xls","odt","ods","odp","odf","txt","ps","tex"],
+    app : ["exe","dmg","pkg", "deb"]
+}
+
+
 switch (command) { 
     case "tree":
         treeFn(inputArr[1])
@@ -63,7 +71,8 @@ function organizeHelperFn(src, dest) {
         let childAddress = path.join(src,childNames[i]);
         let isFile = fs.lstatSync(childAddress).isFile(); //check wether it is a file or not
         if(isFile){
-            console.log(childNames[i]);
+            // console.log(childNames[i]);
+            let category = getCategoryFn(childNames[i]);
             // 4/ copy/ cut files to that organized directory inside of any category folder
         }
     }
