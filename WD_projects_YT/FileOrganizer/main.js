@@ -11,7 +11,7 @@ let inputArr = process.argv.slice(2);  //take input from command line
 let command = inputArr[0];
 
 let types = {
-    media : ["mp4","mkv"],
+    media : ["mp4","mkv","jpg", "jpeg","png"],
     archives : ["zip","7z","rar","tar","gz","ar","iso","xz"],
     documents : ["docx","doc","pptx","pdf","xls","odt","ods","odp","odf","txt","ps","tex"],
     app : ["exe","dmg","pkg", "deb"]
@@ -73,11 +73,38 @@ function organizeHelperFn(src, dest) {
         if(isFile){
             // console.log(childNames[i]);
             let category = getCategoryFn(childNames[i]);
+            console.log(childNames[i],"belongs to  -->",category);
             // 4/ copy/ cut files to that organized directory inside of any category folder
+            sendFileFn(childAddress, dest, category);
         }
     }
 }
 
+//getCategoryFn
+function getCategoryFn(name) {
+    let ext = path.extname(name); //gives the extension of the file
+    ext = ext.slice(1); //remove .(dot) from ext
+    // console.log(ext);
+    for(let type in types){
+        let cTypesArray = types[type]; //give the array of extension of respective file type
+        for(let i = 0; i < cTypesArray.length; i++){
+            if(ext == cTypesArray[i])
+            return type;
+        }
+    }
+    return "others";
+}
+
+//sendFileFn
+function sendFileFn(srcFilePath, dest, category) {
+    let categoryPath = path.join(dest, category);
+    if(fs.existsSync(categoryPath) == false){
+        fs.mkdirSync(categoryPath);
+    }
+    let fileName = path.basename(srcFilePath);
+    let destFilePath = path.join(categoryPath, fileName);
+    fs.copyFileSync(srcFilePath, destFilePath);
+}
 
 //help function
 function helpFn() {
