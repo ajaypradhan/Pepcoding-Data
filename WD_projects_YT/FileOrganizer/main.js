@@ -47,7 +47,7 @@ function organizeFn(dirPath) {
         console.log("Kindly enter the path");
     }else{
         let doesExist = fs.existsSync(dirPath); //it check if the directory exist or not
-        if(dirPath){
+        if(doesExist){
             // 2. create - > organized_file -> directory
             let destPath = path.join(dirPath,"organized_files"); //destination path
             if(fs.existsSync(destPath) == false){ //check if the file exist or not
