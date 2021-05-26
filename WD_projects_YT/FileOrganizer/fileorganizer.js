@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const fs = require("fs");
 const path = require("path");
 
@@ -31,7 +32,8 @@ switch (command) {
 
 function treeFn(dirPath) {
     if (dirPath == undefined) {
-        console.log("Kindly enter the correct path");
+        // console.log("Kindly enter the correct path");
+        treeHelper(process.cwd(), "");
         return;
     } else {
         let doesExist = fs.existsSync(dirPath);
@@ -69,7 +71,8 @@ function organizeFn(dirPath) {
     // 1. input -> directory path
     let destPath;
     if (dirPath == undefined) {
-        console.log("Kindly enter the correct path");
+        // console.log("Kindly enter the correct path");
+         destPath = process.cwd()
         return;
     } else {
         let doesExist = fs.existsSync(dirPath);
