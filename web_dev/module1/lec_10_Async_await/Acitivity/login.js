@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const challenges = require("./challenges");
 const id = "gecapay358@rphinfo.com";
 const pw = "789456123";
-const Challenges = require("./challenges");
+
 
 (async function () {
   let browser = await puppeteer.launch({
