@@ -25,7 +25,7 @@ async function login(){
     let bothLis = await tab.$$('.nav-tabs.nav.admin-tabbed-nav li');
     let manageChallengeLi = bothLis[1];
     await manageChallengeLi.click();
-    await addModerators(browser , tab);
+    // await addModerators(browser , tab);
 };
 login();
 

@@ -14,6 +14,7 @@ function processData(html) {
   let bothInnings = myDocument(
     ".card.content-block.match-scorecard-table .Collapsible"
   );
+  console.log(bothInnings);
   for (let i = 0; i < bothInnings.length; i++) {
     let oneInning = myDocument(bothInnings[i]);
     // <div class="Collapsible"></div>
