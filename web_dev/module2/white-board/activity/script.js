@@ -13,53 +13,54 @@ window.addEventListener("resize", function () {
 // a context object which provides fun for 2d drawing
 let ctx = canvas.getContext("2d");
 
+
 let linesDB = [];
 let redoLinesDB = [];
 let isPenDown = false;
 let line = [];
 
-canvas.addEventListener("mousedown", function (e) {
-  if (redoLinesDB.length) {
-    redoLinesDB = [];
-  }
-  console.log("Inside mouse down");
-  isPenDown = true;
-  let x = e.clientX;
-  let y = e.clientY - 100;
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-
-  let pointObject = {
-    x: x,
-    y: y,
-    type: "md",
-  };
-  line.push(pointObject);
-});
-
-canvas.addEventListener("mousemove", function (e) {
-  if (isPenDown) {
-    console.log("Inside mousemove");
+canvas.addEventListener("mousedown" , function(e){
+    if(redoLinesDB.length){
+        redoLinesDB = [];
+    }
+    console.log("Inside mouse down");
+    isPenDown = true;
     let x = e.clientX;
-    let y = e.clientY - 100;
-    ctx.lineTo(x, y);
-    ctx.stroke();
+    let y = e.clientY-100;
+    ctx.beginPath();
+    ctx.moveTo(x , y);
 
     let pointObject = {
-      x: x,
-      y: y,
-      type: "mm",
-    };
+        x:x , 
+        y:y , 
+        type:"md"
+    }
     line.push(pointObject);
-  }
-});
+})
 
-canvas.addEventListener("mouseup", function (e) {
-  console.log("mouseup");
-  isPenDown = false;
+canvas.addEventListener("mousemove" , function(e){
+    if(isPenDown){
+        console.log("Inside mousemove")
+        let x = e.clientX;
+        let y = e.clientY-100;
+        ctx.lineTo(x , y);
+        ctx.stroke();
 
-  linesDB.push(line);
-  line = [];
+        let pointObject = {
+            x:x , 
+            y:y , 
+            type:"mm"
+        }
+        line.push(pointObject);
+    }
+})
 
-  console.log(linesDB);
-});
+canvas.addEventListener("mouseup" , function(e){
+    console.log("mouseup");
+    isPenDown = false;
+
+    linesDB.push(line);
+    line = [];
+
+    console.log(linesDB);
+})
