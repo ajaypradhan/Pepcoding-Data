@@ -3,6 +3,7 @@ let redo = document.querySelector("#redo");
 undo.addEventListener("click" , undoLine);
 redo.addEventListener("click" , redoLine);
 
+
 function undoLine(){
     if(linesDB.length){
         let undoLine = linesDB.pop();
@@ -14,7 +15,6 @@ function undoLine(){
         drawLinesFromDB();
     }
 }
-
 function redoLine(){
     if(redoLinesDB.length){
         let redoLine = redoLinesDB.pop();
@@ -31,11 +31,7 @@ function redoLine(){
         }
         linesDB.push(redoLine);
     }
-
-
-
 }
-
 function drawLinesFromDB(){
     for(let i=0 ; i<linesDB.length ; i++){
         let line = linesDB[i];
