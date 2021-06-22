@@ -15,6 +15,12 @@ let mediaRecorder;
     console.log("Inside on data available");
     console.log(e.data);
     let videoObject = new Blob([e.data], { type: "video/mp4" });
+    //
+    let aTag = document.createElement("a");
+    aTag.download = "video.mp4";
+    aTag.href = videoObject;
+    aTag.click();
+    //
     console.log(videoObject);
   };
   mediaRecorder.onstop = function () {
