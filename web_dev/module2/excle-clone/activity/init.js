@@ -1,9 +1,7 @@
 let cellsContainer = document.querySelector(".cells");
 let db;
-
 function initCells() {
   let cellsContent = '<div class="top-left-cell"></div>';
-
   cellsContent += '<div class="top-row">';
   for (let j = 0; j < 26; j++) {
     cellsContent += `<div class="top-row-cell">${String.fromCharCode(
@@ -11,7 +9,6 @@ function initCells() {
     )}</div>`;
   }
   cellsContent += "</div>";
-
   cellsContent += '<div class="left-col">';
   for (let j = 0; j < 100; j++) {
     cellsContent += `<div class="left-col-cell">${j + 1}</div>`;
@@ -28,7 +25,6 @@ function initCells() {
   cellsContent += "</div";
   cellsContainer.innerHTML = cellsContent;
 }
-
 function initDB() {
   db = [];
   for (let i = 0; i < 100; i++) {
@@ -41,6 +37,7 @@ function initDB() {
         name: cellName,
         value: "",
         formula: "",
+        childrens:[]
       };
       row.push(cellObject);
     }
@@ -48,6 +45,5 @@ function initDB() {
   }
   console.log(db);
 }
-
 initCells();
 initDB();
