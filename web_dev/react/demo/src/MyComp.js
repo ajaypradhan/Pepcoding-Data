@@ -18,13 +18,30 @@ import React from 'react';
 
 class MyComp extends React.Component {
     state = {
-        sendNumber: 3,
+        someNUmber: 0,
     };
     render = () => {
         return (
             <div>
-                <h1>Class Based Component</h1>
-                <h2>{this.state.sendNumber}</h2>
+                <h1>{this.state.someNUmber}</h1>
+                <button
+                    onClick={() => {
+                        this.setState({
+                            someNUmber: this.state.someNUmber + 1,
+                        });
+                    }}
+                >
+                    increment
+                </button>
+                <button
+                    onClick={() => {
+                        this.setState({
+                            someNUmber: this.state.someNUmber - 1,
+                        });
+                    }}
+                >
+                    decrement
+                </button>
             </div>
         );
     };
