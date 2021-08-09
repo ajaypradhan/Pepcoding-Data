@@ -13,7 +13,6 @@ class App extends React.Component {
                 <input
                     className="input-box"
                     type="text"
-
                     onChange={(e) => {
                         this.setState({ currInput: e.currentTarget.value });
                         console.log(e.currentTarget.value);
@@ -35,7 +34,12 @@ class App extends React.Component {
 
                 <ul>
                     {this.state.tasks.map((el) => {
-                        return <li>{el}</li>;
+                        return (
+                            <li>
+                                {el}
+                                <button>Delete</button>
+                            </li>
+                        );
                     })}
                 </ul>
             </div>
