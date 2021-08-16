@@ -33,6 +33,16 @@ let App = () => {
         let arr = process.split('i');
         console.log(arr);
     }, [process]);
+
+    //clean up
+    useEffect(() => {
+        console.log('case 2 useEffect was called');
+
+        return () => {
+            console.log('clean up function');
+        };
+    });
+
     return (
         <div>
             <button
