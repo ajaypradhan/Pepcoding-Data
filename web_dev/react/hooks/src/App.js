@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 let App = () => {
     const [count, setCount] = useState(0);
+    let [process, setProcess] = useState('running');
 
     console.log('render was called');
 
@@ -24,6 +25,14 @@ let App = () => {
     useEffect(() => {
         console.log('case 2 useEffect was called');
     });
+
+    // case 3:
+    // this useEffect will execute after first render
+    // and also after the state variable which is being used changes
+    useEffect(() => {
+        let arr = process.split('i');
+        console.log(arr);
+    }, [process]);
     return (
         <div>
             <button
@@ -40,6 +49,15 @@ let App = () => {
                 }}
             >
                 -
+            </button>
+
+            <p>{process}</p>
+            <button
+                onClick={() => {
+                    setProcess('stop');
+                }}
+            >
+                kill process
             </button>
         </div>
     );
