@@ -1,15 +1,17 @@
+import { Link } from "react-router-dom";
+
 let Navbar = () => {
-    return (
-      <>
-        <nav className="navbar navbar-dark bg-dark">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="/">
-              Resume Builder
-            </a>
-          </div>
-        </nav>
-      </>
-    );
-  };
-  
-  export default Navbar;
+  return (
+    <>
+      <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <Link class="navbar-brand" to="/">
+            Resume Builder
+          </Link>
+        </div>
+      </nav>
+    </>
+  );
+};
+
+export default Navbar;
